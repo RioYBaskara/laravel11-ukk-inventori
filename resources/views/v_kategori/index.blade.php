@@ -5,7 +5,6 @@
     <div class="row">
     <div class="col-md-6 bg-light text-left">
         
-<a href="{{ route('kategori.create') }}" class="btn btn-md btn-success btn-sm pull-right">TAMBAH</a>
 </div>
 <div class="col-md-6 bg-light text-right">
     
