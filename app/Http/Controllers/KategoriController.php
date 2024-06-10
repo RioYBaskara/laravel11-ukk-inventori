@@ -27,8 +27,17 @@ class KategoriController extends Controller
         return $kategoriMap[$kode] ?? $kode;
     }
     
-    public function index()
+    public function index(Request $request)
     {
+
+        // if ($request->search){
+        //     $rsetKategori = DB::table('kategori')->select('id','deskripsi',DB::raw('getKategori(kategori) as kat'))
+        //                                         ->where('id','like','%'.$request->search.'%')
+        //                                         ->orWhere('deskripsi','like','%'.$request->search.'%')
+        //                                         ->paginate(10);
+        //                                     }else {
+        //                                         $rsetKategori = DB::table('kategori')->select('id','deskripsi',DB::raw('getKategori(kategori) as kat'))->paginate(10);
+        //                                     }
         // Fetch all Kategori records
         $rsetKategori = Kategori::all()->map(function ($item) {
             $item->kategori = $this->getDeskripsiKategori($item->kategori);
@@ -36,7 +45,7 @@ class KategoriController extends Controller
         });
     
         // Return the index view with the Kategori data
-        return view('v_latihan.index', compact('rsetKategori'));
+        return view('v_kategori.index',compact('rsetKategori'));
     }
     
 
@@ -48,7 +57,7 @@ class KategoriController extends Controller
     public function create()
     {
         // Return the create form view
-        return view('v_latihan.create');
+        return view('v_kategori.create');
     }
 
     /**
@@ -84,7 +93,7 @@ class KategoriController extends Controller
         $rsetKategori = Kategori::find($id);
 
         // Return the show view with the Kategori data
-        return view('v_latihan.show', compact('rsetKategori'));
+        return view('v_kategori.show', compact('rsetKategori'));
     }
 
     /**
@@ -99,7 +108,7 @@ class KategoriController extends Controller
         $rsetKategori = Kategori::find($id);
 
         // Return the edit form view with the Kategori data
-        return view('v_latihan.edit', compact('rsetKategori'));
+        return view('v_kategori.edit', compact('rsetKategori'));
     }
 
     /**
