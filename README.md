@@ -1,66 +1,99 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Sistem Manajemen Inventaris dengan Laravel 11
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Projek ini adalah Sistem Manajemen Inventaris yang dibangun dengan menggunakan Laravel 11. Terdapat lima tabel utama: `Kategori`, `Barang`, `BarangMasuk`, dan `BarangKeluar`.
 
-## About Laravel
+### Foto
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/49e2ba61-bbc2-462b-814d-187439abbca1)
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/8f54eee6-1abb-4b5a-adbc-744cd5345d37)
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/f3e9edad-90fb-4454-ae40-65a36d3b09b9)
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/5b807338-c3ef-4e2f-b892-921b45189f92)
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/e76b4289-d39b-4fac-9061-e2915c34f5e8)
+- ![image](https://github.com/RioYBaskara/laravel11-ukk-inventori/assets/156874101/eb01bdc2-013c-499a-bfea-13d74f995ba5)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Autentikasi Pengguna**: Pengguna dapat melakukan autentikasi untuk mengakses sistem.
+2. **Referential Integrity**: Menjaga integritas data dengan menerapkan konstrain integritas referensial antar tabel terkait.
+3. **Triggers**: Menggunakan trigger untuk melakukan tindakan otomatis saat terjadi suatu peristiwa di database.
+4. **Operasi CRUD**: Mendukung operasi CRUD (Create, Read, Update, Delete) untuk mengelola data dengan efektif.
+5. **API untuk Tabel Kategori**: Menyediakan API untuk data dalam tabel `Kategori`.
+6. **Store Function dan Stored Procedure**: Memanfaatkan store function dan stored procedure untuk melakukan operasi kompleks di database.
+7. **Pencarian Data**: Menyediakan fitur pencarian untuk memudahkan pengguna dalam menemukan data yang dibutuhkan.
 
-## Learning Laravel
+### Template
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Projek ini menggunakan template [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) untuk desain antarmuka pengguna.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Clone Repositori
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Untuk meng-clone repositori ini, ikuti langkah-langkah berikut:
 
-## Laravel Sponsors
+1. Pastikan Git sudah terinstal di komputer Anda.
+2. Buka terminal atau command prompt.
+3. Arahkan ke direktori tempat Anda ingin meng-clone repositori.
+4. Jalankan perintah berikut:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+https://github.com/RioYBaskara/laravel11-ukk-inventori.git
+```
 
-### Premium Partners
+### Persyaratan
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Sebelum menjalankan projek Laravel ini, pastikan Anda telah memenuhi persyaratan berikut:
 
-## Contributing
+1. **PHP**: Pastikan PHP sudah terinstal di sistem Anda. Anda dapat mengunduhnya dari [php.net](https://www.php.net/downloads).
+2. **Composer**: Instal Composer, manajer dependensi untuk PHP, dari [getcomposer.org](https://getcomposer.org/download/).
+3. **MySQL**: Siapkan server database MySQL. Anda dapat mengunduhnya dari [mysql.com](https://dev.mysql.com/downloads/).
+4. **Laravel CLI**: Instal Laravel secara global menggunakan Composer:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer global require laravel/installer
+```
 
-## Code of Conduct
+### Persiapan
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Ikuti langkah-langkah berikut untuk menyiapkan projek:
 
-## Security Vulnerabilities
+1. **Clone Repositori**: Gunakan instruksi cloning yang disebutkan di atas.
+2. **Instal Dependensi**: Arahkan ke direktori projek dan jalankan:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+3. **Salin Variabel Lingkungan**: Duplikat file `.env.example` dan ganti namanya menjadi `.env`. Perbarui detail konfigurasi database (DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD) di file ini.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+```
+
+4. **Menghasilkan Kunci Aplikasi**: Jalankan perintah berikut untuk menghasilkan kunci aplikasi yang unik:
+
+```bash
+php artisan key:generate
+```
+
+5. **Jalankan Migrasi**: Jalankan perintah berikut untuk menjalankan semua migrasi yang tertunda:
+
+```bash
+php artisan migrate
+```
+
+6. **Jalankan Aplikasi**: Terakhir, jalankan server pengembangan Laravel:
+
+```bash
+php artisan serve
+```
+
+Akses aplikasi melalui web browser Anda
+
+Jangan lupa Bismillah.
+
+### API untuk Tabel Kategori
+
+- **GET** .../api/kategori: Mendapatkan daftar semua data kategori.
+- **GET** .../api/kategori/{kategori_id}: Mendapatkan detail kategori berdasarkan ID.
+- **POST** .../api/kategori: Menambahkan kategori baru.
+- **PUT** .../api/kategori/{kategori_id}: Memperbarui detail kategori berdasarkan ID.
+- **DELETE** .../api/kategori/{kategori_id}: Menghapus kategori berdasarkan ID.
