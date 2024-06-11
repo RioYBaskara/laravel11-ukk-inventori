@@ -7,6 +7,7 @@ use App\Models\BarangMasuk;
 use App\Models\Barang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\DB;
 
 class BarangMasukController extends Controller
 {
@@ -15,11 +16,31 @@ class BarangMasukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rsetBarangMasuk = BarangMasuk::all();
+        // Buat query builder untuk data barang masuk
+        $query = DB::table('barangmasuk')
+            ->join('barang', 'barangmasuk.barang_id', '=', 'barang.id')
+            ->select('barangmasuk.*', 'barang.merk', 'barang.seri', 'barang.spesifikasi');
+
+        // Jika ada parameter pencarian, tambahkan kondisi pencarian
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('barangmasuk.tgl_masuk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barangmasuk.qty_masuk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.merk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.seri', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.spesifikasi', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        // Ambil data barang masuk menggunakan query builder
+        $rsetBarangMasuk = $query->get();
+
         return view('v_barangmasuk.index', compact('rsetBarangMasuk'));
     }
+
 
     /**
      * Show the form for creating a new resource.

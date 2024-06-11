@@ -17,16 +17,29 @@ class BarangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Ambil data barang dengan deskripsi kategori
-        $rsetBarang = DB::table('barang')
+        $query = DB::table('barang')
             ->join('kategori', 'barang.kategori_id', '=', 'kategori.id')
-            ->select('barang.*', 'kategori.deskripsi as kategori_deskripsi')
-            ->get();
+            ->select('barang.*', 'kategori.deskripsi as kategori_deskripsi');
+
+        // Jika ada parameter pencarian, tambahkan kondisi pencarian
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('barang.merk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.seri', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.spesifikasi', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('kategori.deskripsi', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $rsetBarang = $query->get();
 
         return view('v_barang.index', compact('rsetBarang'));
     }
+
 
     /**
      * Show the form for creating a new resource.

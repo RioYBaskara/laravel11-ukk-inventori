@@ -7,6 +7,7 @@ use App\Models\BarangKeluar;
 use App\Models\Barang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\DB;
 
 class BarangKeluarController extends Controller
 {
@@ -15,11 +16,31 @@ class BarangKeluarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rsetBarangKeluar = BarangKeluar::all();
+        // Buat query builder untuk data barang keluar
+        $query = DB::table('barangkeluar')
+            ->join('barang', 'barangkeluar.barang_id', '=', 'barang.id')
+            ->select('barangkeluar.*', 'barang.merk', 'barang.seri', 'barang.spesifikasi');
+
+        // Jika ada parameter pencarian, tambahkan kondisi pencarian
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('barangkeluar.tgl_keluar', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barangkeluar.qty_keluar', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.merk', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.seri', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('barang.spesifikasi', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        // Ambil data barang keluar menggunakan query builder
+        $rsetBarangKeluar = $query->get();
+
         return view('v_barangkeluar.index', compact('rsetBarangKeluar'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -96,16 +117,42 @@ class BarangKeluarController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $this->validate($request, [
-            'tgl_keluar'  => 'required|date',
-            'qty_keluar'  => 'required|integer',
-            'barang_id'   => 'required|exists:barang,id',
-        ]);
+            'tgl_keluar' => 'required|date',
+            'qty_keluar' => [
+                'required',
+                'integer',
+                'min:0',
+                function ($attribute, $value, $fail) use ($request, $id) {
+                    $barangKeluar = BarangKeluar::findOrFail($id);
+                    $barang = Barang::findOrFail($request->barang_id);
+                    $stok_barang = $barang->stok + $barangKeluar->qty_keluar;
 
-        $rsetBarangKeluar = BarangKeluar::find($id);
-        $rsetBarangKeluar->update($validatedData);
+                    if ($value > $stok_barang) {
+                        $fail("Kuantitas tidak boleh melebihi stok ($stok_barang)");
+                    } else {
+                        // Kembalikan stok sebelumnya
+                        $barang->stok += $barangKeluar->qty_keluar;
+                        $barang->save();
+
+                        // Simpan data barang keluar hanya jika kuantitas valid
+                        $barangKeluar->update([
+                            'tgl_keluar' => $request->tgl_keluar,
+                            'qty_keluar' => $value,
+                            'barang_id' => $request->barang_id,
+                        ]);
+
+                        // Mengurangi stok barang hanya jika kuantitas valid
+                        $barang->stok -= $value;
+                        $barang->save();
+                    }
+                },
+            ],
+            'barang_id' => 'required|exists:barang,id',
+        ]);
 
         return redirect()->route('barangkeluar.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
+
 
     /**
      * Remove the specified resource from storage.
