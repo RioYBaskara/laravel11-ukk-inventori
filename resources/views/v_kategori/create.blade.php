@@ -33,7 +33,7 @@
                               <div class="form-check">
                                 <input class="form-check-input" type="radio" name="kategori" id="kategori" value="A">
                                 <label class="form-check-label" for="kategori">
-                                  A - Asset
+                                  A - Aset
                                 </label>
                               </div>
                               <div class="form-check">

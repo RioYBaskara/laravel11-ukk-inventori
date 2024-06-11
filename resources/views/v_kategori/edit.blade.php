@@ -27,13 +27,13 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="kategori" id="kategoriM" value="M" {{ $rsetKategori->kategori == 'M' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="kategoriM">
-                                    M - Maintenance
+                                    M - Modal
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="kategori" id="kategoriA" value="A" {{ $rsetKategori->kategori == 'A' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="kategoriA">
-                                    A - Asset
+                                    A - Aset
                                 </label>
                             </div>
                             <div class="form-check">
