@@ -27,7 +27,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="kategori" id="kategori" value="M">
                                 <label class="form-check-label" for="kategori">
-                                  M - Maintenance
+                                  M - Modal
                                 </label>
                               </div>
                               <div class="form-check">

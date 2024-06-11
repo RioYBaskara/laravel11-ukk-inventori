@@ -10,7 +10,9 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
 
-Route::resource('/', BarangController::class)->middleware('auth');
+Route::resource('/', KategoriController::class)->middleware('auth');
+
+Route::resource('barang', BarangController::class)->middleware('auth');
 
 Route::get('login', [LoginController::class,'index'])->name('login')->middleware('guest');
 Route::post('login', [LoginController::class,'authenticate']);

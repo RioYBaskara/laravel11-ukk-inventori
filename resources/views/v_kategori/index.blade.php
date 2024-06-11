@@ -1,14 +1,12 @@
 @extends('layouts.adm-main')
 
 @section('content')
-<div class="container">
-    <div class="row">
-    <div class="col-md-6 bg-light text-left">
-        
-</div>
-<div class="col-md-6 bg-light text-right">
-    
-<form action="/kategori" method="GET"
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 bg-light text-left">
+            </div>
+            <div class="col-md-6 bg-light text-right">
+                <form action="/kategori" method="GET"
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 @csrf
                 <div class="input-group">
@@ -20,7 +18,7 @@
                         </div>
                 </div>
             </form>
-</div>
+            </div>
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
