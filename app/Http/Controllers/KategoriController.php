@@ -15,38 +15,26 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getDeskripsiKategori($kode)
-    {
-        $kategoriMap = [
-            'M' => 'Modal',
-            'A' => 'Alat',
-            'BHP' => 'Bahan Habis Pakai',
-            'BTHP' => 'Bahan Tidak Habis Pakai',
-        ];
-    
-        return $kategoriMap[$kode] ?? $kode;
-    }
-    
     public function index(Request $request)
-    {
+{
+    // Define the mapping of category codes to descriptions
+    $kategoriMap = [
+        'M' => 'Modal',
+        'A' => 'Alat',
+        'BHP' => 'Bahan Habis Pakai',
+        'BTHP' => 'Bahan Tidak Habis Pakai',
+    ];
 
-        // if ($request->search){
-        //     $rsetKategori = DB::table('kategori')->select('id','deskripsi',DB::raw('getKategori(kategori) as kat'))
-        //                                         ->where('id','like','%'.$request->search.'%')
-        //                                         ->orWhere('deskripsi','like','%'.$request->search.'%')
-        //                                         ->paginate(10);
-        //                                     }else {
-        //                                         $rsetKategori = DB::table('kategori')->select('id','deskripsi',DB::raw('getKategori(kategori) as kat'))->paginate(10);
-        //                                     }
-        // Fetch all Kategori records
-        $rsetKategori = Kategori::all()->map(function ($item) {
-            $item->kategori = $this->getDeskripsiKategori($item->kategori);
-            return $item;
-        });
-    
-        // Return the index view with the Kategori data
-        return view('v_kategori.index',compact('rsetKategori'));
-    }
+    // Fetch all Kategori records
+    $rsetKategori = Kategori::all()->map(function ($item) use ($kategoriMap) {
+        $item->kategori = $kategoriMap[$item->kategori] ?? $item->kategori;
+        return $item;
+    });
+
+    // Return the index view with the Kategori data
+    return view('v_kategori.index', compact('rsetKategori'));
+}
+
     
 
     /**
