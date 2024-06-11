@@ -1,0 +1,67 @@
+Trigger
+	SELECT Trigger_name FROM information_schema.triggers WHERE trigger_schema = 'ukklaravel11';
+	DROP TRIGGER IF EXISTS nama_trigger;
+
+Function
+	SHOW FUNCTION STATUS WHERE Db = 'ukklaravel11';
+	DROP FUNCTION IF EXISTS nama_fungsi;
+	SELECT nama_fungsi(argumen);
+
+Procedure
+	SHOW PROCEDURE STATUS WHERE Db = 'nama_database';
+	DROP PROCEDURE IF EXISTS nama_procedure;
+	CALL nama_prosedur(argumen);
+
+-------------------------------------------Stored Function---------------------------------------
+
+kalau ada error deterministic
+	SET GLOBAL log_bin_trust_function_creators = 1;
+
+    
+DELIMITER $$
+
+CREATE FUNCTION ketKategori(kat VARCHAR(4))
+RETURNS varchar(30)
+
+BEGIN
+
+ IF kat = 'M' THEN
+   return  "Modal Barang";
+ ELSEIF kat="A" THEN
+   RETURN  "Alat";
+ ELSEIF kat="BHP" THEN
+   RETURN  "Bahan Habis Pakai";
+ ELSEIF kat="BTHP" THEN
+   RETURN  "Bahan Tidak Habis Pakai";
+ END IF;
+
+END$$
+
+DELIMITER ;
+
+
+-------------------------------------------Stored Procedure---------------------------------------
+
+DELIMITER //
+
+CREATE PROCEDURE getKategori(IN param VARCHAR(255))
+BEGIN
+    IF param IS NULL OR param = '' THEN
+        SELECT * FROM kategori;
+    ELSE
+        CASE param
+            WHEN 'deskripsi' THEN
+                SELECT deskripsi FROM kategori;
+            WHEN 'kategori' THEN
+                SELECT kategori FROM kategori;
+            WHEN 'id' THEN
+                SELECT id FROM kategori;
+            ELSE
+                SELECT * FROM kategori;
+        END CASE;
+    END IF;
+END //
+
+DELIMITER ;
+
+-------------------------------------------------------------------------------------------------

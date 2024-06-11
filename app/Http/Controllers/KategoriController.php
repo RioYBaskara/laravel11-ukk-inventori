@@ -17,23 +17,39 @@ class KategoriController extends Controller
      */
     public function index(Request $request)
 {
-    // Define the mapping of category codes to descriptions
-    $kategoriMap = [
-        'M' => 'Modal',
-        'A' => 'Alat',
-        'BHP' => 'Bahan Habis Pakai',
-        'BTHP' => 'Bahan Tidak Habis Pakai',
-    ];
+    // Panggil stored procedure dan simpan hasilnya ke dalam variabel
+    $kategoriData = DB::select('CALL getKategori("kategori")');
 
-    // Fetch all Kategori records
-    $rsetKategori = Kategori::all()->map(function ($item) use ($kategoriMap) {
-        $item->kategori = $kategoriMap[$item->kategori] ?? $item->kategori;
-        return $item;
-    });
+    // Ubah hasil pemanggilan stored procedure menjadi array asosiatif untuk kemudian dijadikan map
+    $kategoriMapFromDB = collect($kategoriData)->map(function ($item) {
+        return (array) $item;
+    })->pluck('deskripsi', 'id')->toArray();
+
+    // Buat query builder untuk data kategori
+    $query = DB::table('kategori')->select('id', 'deskripsi', 'kategori');
+
+    // Jika ada parameter pencarian, tambahkan kondisi pencarian
+    if ($request->search) {
+        $query->where('id', 'like', '%' . $request->search . '%')
+            ->orWhere('deskripsi', 'like', '%' . $request->search . '%');
+    }
+
+    // Ambil data kategori menggunakan query builder
+    $rsetKategori = $query->paginate(10);
+
+    // Ubah kode kategori menjadi deskripsi menggunakan fungsi MySQL
+    foreach ($rsetKategori as $item) {
+        $item->kategori = DB::select('SELECT ketKategori(?) AS deskripsi', [$item->kategori])[0]->deskripsi ?? $item->kategori;
+    }
 
     // Return the index view with the Kategori data
     return view('v_kategori.index', compact('rsetKategori'));
 }
+
+
+
+
+
 
     
 
