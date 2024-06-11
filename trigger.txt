@@ -1,0 +1,72 @@
+DELIMITER $$
+CREATE TRIGGER barang_undo_stokdelete
+BEFORE DELETE ON barangmasuk
+FOR EACH ROW
+BEGIN
+    UPDATE barang
+    SET barang.stok = barang.stok - OLD.qty_masuk
+    WHERE barang.id = OLD.barang_id;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER barang_undo_stokdel
+BEFORE DELETE ON barangkeluar
+FOR EACH ROW
+BEGIN
+    UPDATE barang
+    SET barang.stok = barang.stok + OLD.qty_keluar
+    WHERE barang.id = OLD.barang_id;
+END$$
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER tambah_stok AFTER INSERT ON barangmasuk
+FOR EACH ROW
+BEGIN
+    UPDATE barang SET barang.stok = barang.stok + NEW.qty_masuk WHERE barang.id = NEW.barang_id; 
+END;
+//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER kurangi_stok AFTER INSERT ON barangkeluar
+FOR EACH ROW
+BEGIN
+    UPDATE barang SET barang.stok = barang.stok - NEW.qty_keluar WHERE barang.id = NEW.barang_id; 
+END;
+//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER edit_tambah_stok AFTER UPDATE ON barangmasuk
+FOR EACH ROW
+BEGIN
+    UPDATE barang SET barang.stok = barang.stok + (NEW.qty_masuk - OLD.qty_masuk) WHERE barang.id = NEW.barang_id; 
+END;
+//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER edit_kurangi_stok AFTER UPDATE ON barangkeluar
+FOR EACH ROW
+BEGIN
+    UPDATE barang SET barang.stok = barang.stok - (NEW.qty_keluar - OLD.qty_keluar) WHERE barang.id = NEW.barang_id; 
+END;
+//
+
+DELIMITER ;
