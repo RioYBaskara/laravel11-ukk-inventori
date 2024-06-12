@@ -72,17 +72,41 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request data
-        $validatedData = $this->validate($request, [
-            'deskripsi' => 'required|string|max:100',
-            'kategori' => 'required|in:M,A,BHP,BTHP',
-        ]);        
+        //cek data
+        // echo "data deskripsi";
+        // echo $request->deskripsi;
+        // die('asd');
 
-        // Create a new Kategori record
-        Kategori::create($validatedData);
 
-        // Redirect to the index page with a success message
-        return redirect()->route('kategori.index')->with('success', 'Data berhasil disimpan.');
+        $request->validate([
+            'deskripsi' => 'required',
+            'kategori' => 'required',
+        ]);
+
+        // Create a new Kategori
+        //Kategori::create([
+        //    'deskripsi' => $request->deskripsi,
+        //    'kategori' => $request->kategori,
+       // ]);
+
+        try {
+            DB::beginTransaction(); // <= Starting the transaction
+
+            // Insert a new order history
+            DB::table('kategori')->insert([
+                'deskripsi' => $request->deskripsi,
+                'kategori' =>$request->kategori,
+            ]);
+
+            DB::commit(); // <= Commit the changes
+        } catch (\Exception $e) {
+            report($e);
+            
+            DB::rollBack(); // <= Rollback in case of an exception
+        }
+
+                // Redirect to index
+                return redirect()->route('kategori.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**

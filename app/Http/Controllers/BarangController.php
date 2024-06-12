@@ -35,10 +35,11 @@ class BarangController extends Controller
             });
         }
 
-        $rsetBarang = $query->get();
+        $rsetBarang = $query->paginate(10); // Menggunakan paginasi dengan 10 item per halaman
 
         return view('v_barang.index', compact('rsetBarang'));
     }
+
 
 
     /**

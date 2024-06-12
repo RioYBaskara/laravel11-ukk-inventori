@@ -60,24 +60,28 @@
                             </td>
                         </tr>
                     @empty
-                        <div class="alert">
-                            Data Kategori belum tersedia
-                        </div>
+                        <tr>
+                            <td colspan="4" class="text-center">Data Kategori belum tersedia</td>
+                        </tr>
                     @endforelse
                 </tbody>
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                @if(session('Gagal'))
-                    <div class="alert alert-danger">
-                        {{ session('Gagal') }}
-                    </div>
-                @endif
             </table>
-            {{-- {{ $kategori->links() }} --}}
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('Gagal'))
+                <div class="alert alert-danger">
+                    {{ session('Gagal') }}
+                </div>
+            @endif
+
+            <div class="d-flex justify-content-end mt-3">
+                {{ $rsetKategori->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
 </div>

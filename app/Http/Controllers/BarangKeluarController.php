@@ -36,7 +36,7 @@ class BarangKeluarController extends Controller
         }
 
         // Ambil data barang keluar menggunakan query builder
-        $rsetBarangKeluar = $query->get();
+        $rsetBarangKeluar = $query->paginate(10);
 
         return view('v_barangkeluar.index', compact('rsetBarangKeluar'));
     }
